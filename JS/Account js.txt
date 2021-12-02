@@ -1,0 +1,41 @@
+async function grabData() {
+    $("#updated-account").hide()
+    $("#gift-notice").hide()
+    var stages = await $.ajax({
+        url: '',
+        type: 'GET',
+        dataType: 'json',
+        success: (json) => {
+            Object.keys(json).forEach(stage => {
+                $('#stage').append($('<option>').text(json[stage]).attr('value', stage).attr('id', stage))
+            })
+            return json
+        }
+    })
+    await $.ajax({
+        url: '',
+        type: 'GET',
+        dataType: 'json',
+        success: (json) => {
+            Object.keys(json).forEach(box => {
+                $('#giftbox').append($('<option>').text(json[box]).attr('value', box).attr('id', box))
+            })
+            return json
+        }
+    })
+    $.ajax({
+        url: "/id/api/me",
+        success: (data) => {
+            //$(`#${data.athena.stage}`).attr("selected","selected");
+            $("#vbucks").attr("placeholder", data.commoncore.vbucks).val("")
+            $("#level").attr("placeholder", data.athena.level).val("")
+            $("#accountid").text(data.id)
+            $("#username").text(data.displayName)
+            $("#giftusername").text(data.displayName)
+            $(`#${data.misc.allowsGifts == true ? "yes" : "no"}`).attr("selected","selected");
+        },
+        error: () => {
+            document.location.href = "/id/api/kill?redirect=true"
+        }
+    }) 
+}
