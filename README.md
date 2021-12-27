@@ -2,5 +2,6 @@
 
 A fortnite private server backend!
 
-(not completed yet)
+(not working and outdated)
 
+last working patch : "17.50"
